@@ -5,6 +5,8 @@ const fs = require("fs");
 const path = require("path");
 const { networkInterfaces } = require("os");
 
+app.use(express.static(path.join(__dirname, "public")));
+
 app.use(
   express.urlencoded({
     extended: true,
