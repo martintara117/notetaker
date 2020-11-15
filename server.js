@@ -40,7 +40,15 @@ app.post("/api/notes", (req, res) => {
   res.sendStatus(200);
 });
 
-app.delete("/api/notes/:id", (req, res) => {});
+app.delete("/api/notes/:id", (req, res) => {
+  const data = JSON.parse(fs.readFileSync("./db/db.json"));
+  const id = Number(req.params.id);
+  const index = data.findIndex((note) => note.id === id);
+  if (index < 0) res.sendStatus(400);
+  data.splice(index, 1);
+  fs.writeFileSync("./db/db.json", JSON.stringify(data));
+  res.sendStatus(200);
+});
 
 app.listen(PORT, () => {
   console.log(`server is running on http:// local host: ${PORT}`);
